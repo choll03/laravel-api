@@ -40,10 +40,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
+        ],
+        'hotel' => [
+            'driver' => 'jwt',
+            'provider' => 'hotels',
+        ],
+        'internal' => [
+            'driver' => 'jwt',
+            'provider' => 'internals',
         ],
     ],
 
@@ -67,13 +74,16 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'hotels' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Hotel::class,
+        ],
+        'internals' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Internal::class,
+        ],
     ],
 
     /*

@@ -44,10 +44,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
+        $this->mapHotelRoutes();
 
-        $this->mapV1Routes();
-
+        $this->mapInternalRoutes();
         //
     }
 
@@ -81,16 +80,30 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "v1" routes for the application.
+     * Define the "Hotel" routes for the application.
      *
      * These routes are typically stateless.
      *
      * @return void
      */
-    protected function mapV1Routes()
+    protected function mapHotelRoutes()
     {
-        Route::prefix('v1')
+        Route::prefix('hotel')
              ->namespace($this->namespace)
-             ->group(base_path('routes/v1.php'));
+             ->group(base_path('routes/hotel.php'));
+    }
+
+    /**
+     * Define the "Internal" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapInternalRoutes()
+    {
+        Route::prefix('internal')
+             ->namespace($this->namespace. '\Internal')
+             ->group(base_path('routes/internal.php'));
     }
 }

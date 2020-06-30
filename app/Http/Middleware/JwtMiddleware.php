@@ -17,24 +17,38 @@ class JwtMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
         try {
 
-            $user = JWTAuth::parseToken()->authenticate();
+            $user = auth($guard)->check() ? auth($guard)->user() : null;
+
+            if(!$user) {
+                return response()->json([
+                    'message'   => 'Akses ditolak',
+                    'token'     => false
+                ], 401);
+            }
+            
         } catch (Exception $e) {
 
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException)
             {
-                return response()->json(['message' => 'Token is Invalid']);
+                return response()->json(['message' => 'Token is Invalid'], 400);
             } 
             else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException)
             {
-                return response()->json(['message' => 'Token is Expired'], 401);
+                return response()->json([
+                    'message'   => 'Token Expired',
+                    'token'     => true
+                ], 401);
             } 
             else 
             {
-                return response()->json(['message' => 'Akses ditolak']);
+                return response()->json([
+                    'message'   => 'Akses ditolak',
+                    'token'     => false
+                ], 401);
             }
         }
 
