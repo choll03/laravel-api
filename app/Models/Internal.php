@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Traits\HasRoles;
 
 class Internal extends Authenticatable implements JWTSubject
 {
+    use HasRoles;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    protected $guard_name = 'internal';
+
     protected $fillable = [
         'name', 'email', 'password',
     ];

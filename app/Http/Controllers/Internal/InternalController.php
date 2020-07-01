@@ -10,7 +10,7 @@ class InternalController extends Controller
 {
     public function getUser()
     {
-        $internals = Internal::paginate(15);
+        $internals = Internal::with('roles')->paginate(15);
 
         return response()->json($internals);
     }
@@ -56,6 +56,8 @@ class InternalController extends Controller
             'email'     => $request->email,
             'password'  => bcrypt($request->password)
         ]);
+
+        $user->assignRole($request->role);
 
         return response()->json(['data' => $user]);
     }

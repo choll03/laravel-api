@@ -41,6 +41,11 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'internal' => [
+            'jwt.verify:internal',
+            'role:superuser'
+        ]
     ];
 
     /**
@@ -63,7 +68,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class
+        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 
     /**

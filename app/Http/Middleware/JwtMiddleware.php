@@ -46,7 +46,7 @@ class JwtMiddleware
             else 
             {
                 return response()->json([
-                    'message'   => 'Akses ditolak',
+                    'message'   => 'Anda harus login terlebih dahulu',
                     'token'     => false
                 ], 401);
             }
