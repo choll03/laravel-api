@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    private $guard = 'internal';
     
     /**
      * Get a JWT via given credentials.
@@ -17,7 +18,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('internal')->attempt($credentials)) {
+        if (! $token = auth($this->guard)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -31,7 +32,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(['data' => auth('internal')->user()]);
+        return response()->json(['data' => auth($this->guard)->user()]);
     }
 
     /**
@@ -41,7 +42,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth('internal')->logout();
+        auth($this->guard)->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -54,7 +55,7 @@ class AuthController extends Controller
     public function refresh()
     {
         try {
-            return $this->respondWithToken(auth('internal')->refresh());
+            return $this->respondWithToken(auth($this->guard)->refresh());
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json([
