@@ -24,7 +24,7 @@ Route::group(['prefix' => 'auth'], function () {
  * @var App\Model\Internal
  */
 Route::group(['prefix' => 'users', 'middleware' => 'jwt.verify:internal'], function() {
-    Route::get('/', 'InternalController@getUser')->middleware('role:superuser,internal');
+    Route::get('/', 'InternalController@getUser')->middleware('permission:get-internals');
     Route::get('/{id}', 'InternalController@findUser');
     Route::post('/', 'InternalController@createUser');
     Route::put('/{id}', 'InternalController@updateUser');
